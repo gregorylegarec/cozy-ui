@@ -8,15 +8,22 @@ const ModalTitle = ({ title }) =>
     <h2 className={styles['coz-modal-title']}>{title}</h2>
   )
 
-const ModalCross = ({ withCross, secondaryAction, secondaryText }) =>
-  withCross &&
+const ModalCloseButton = ({ hasCloseButton, dismissAction, dismissText }) =>
+  hasCloseButton &&
   (
     <button
       className={classNames('coz-btn', 'coz-btn--close', styles['coz-btn-modal-close'])}
-      onClick={secondaryAction}
+      onClick={dismissAction}
       >
-      <span className='coz-hidden'>{secondaryText}</span>
+      <span className='coz-hidden'>{dismissText}</span>
     </button>
+)
+
+const ModalCross = ({ withCross, secondaryAction, secondaryText }) => (
+  <ModalCloseButton
+    hasCloseButton={withCross}
+    dismissAction={secondaryAction}
+    dismissText={secondaryText} />
 )
 
 const ModalDescription = ({ description }) =>
@@ -57,13 +64,13 @@ class Modal extends Component {
   }
 
   componentDidMount () {
-    if (this.props.withCross) {
+    if (this.props.hasCloseButton || this.props.withCross) {
       document.addEventListener('keydown', this.handleKeydown)
     }
   }
 
   componentWillUnmount () {
-    if (this.props.withCross) {
+    if (this.props.hasCloseButton || this.props.withCross) {
       document.removeEventListener('keydown', this.handleKeydown)
     }
   }
@@ -79,16 +86,18 @@ class Modal extends Component {
   }
 
   render () {
-    const { children, title, withCross } = this.props
+    const { children, title, withCross, hasCloseButton } = this.props
+    if (withCross) console.warn('Modal `withCross` property is deprecated and will soon be removed, please use `hasCloseButton` instead.')
     return (
       <div className={styles['coz-modal-container']}>
         <div
-          onClick={withCross && this.handleOutsideClick}
+          onClick={(withCross || hasCloseButton) && this.handleOutsideClick}
           className={styles['coz-overlay']}
         >
           <div className={styles['coz-modal']}>
             {title && <ModalTitle {...this.props} />}
-            <ModalCross {...this.props} />
+            {withCross && !hasCloseButton && <ModalCross {...this.props} />}
+            {hasCloseButton && <ModalCloseButton {...this.props} />}
             <ModalDescription {...this.props} />
             { children }
             <ModalButtons {...this.props} />
@@ -105,16 +114,20 @@ Modal.propTypes = {
   secondaryType: React.PropTypes.string,
   secondaryText: React.PropTypes.string,
   secondaryAction: React.PropTypes.func,
+  dismissAction: React.PropTypes.func,
+  dismissText: React.Proptypes.string,
   primaryType: React.PropTypes.string,
   primaryText: React.PropTypes.string,
   primaryAction: React.PropTypes.func,
-  withCross: React.PropTypes.bool
+  withCross: React.PropTypes.bool,
+  hasCloseButton: React.PropTypes.bool
 }
 
 Modal.defaultProps = {
   primaryType: 'secondary',
   secondaryType: 'regular',
-  withCross: true
+  withCross: true,
+  hasCloseButton: true
 }
 
 export default Modal
