@@ -8,14 +8,27 @@ const ModalTitle = ({ title }) =>
     <h2 className={styles['coz-modal-title']}>{title}</h2>
   )
 
-const ModalCloseButton = ({ hasCloseButton, dismissAction, dismissText }) =>
+const deprecateSecondaryForDismiss = (dismissAction, secondaryAction) => {
+  if (typeof dismissAction === 'function') {
+    return dismissAction()
+  }
+
+  if (typeof secondaryAction === 'function') {
+    console.warn('Using `secondaryAction` for dismissing Modal component is now deprecated and be soon be removed. Prefer to use `dismissAction` instead.')
+    return secondaryAction()
+  }
+
+  throw new Error('Missing `dismissAction` property')
+}
+
+const ModalCloseButton = ({ hasCloseButton, dismissAction, dismissText, secondaryAction, secondaryText }) =>
   hasCloseButton &&
   (
     <button
       className={classNames('coz-btn', 'coz-btn--close', styles['coz-btn-modal-close'])}
-      onClick={dismissAction}
+      onClick={() => deprecateSecondaryForDismiss(dismissAction, secondaryAction)}
       >
-      <span className='coz-hidden'>{dismissText}</span>
+      <span className='coz-hidden'>{dismissText || secondaryText}</span>
     </button>
 )
 
@@ -77,7 +90,7 @@ class Modal extends Component {
 
   handleKeydown (e) {
     if (e.keyCode === ESC_KEYCODE) {
-      this.props.secondaryAction()
+      return deprecateSecondaryForDismiss(this.props.dismissAction, this.props.secondaryAction)
     }
   }
 
@@ -96,8 +109,8 @@ class Modal extends Component {
         >
           <div className={styles['coz-modal']}>
             {title && <ModalTitle {...this.props} />}
-            {withCross && !hasCloseButton && <ModalCross {...this.props} />}
-            {hasCloseButton && <ModalCloseButton {...this.props} />}
+            {withCross && <ModalCross {...this.props} />}
+            {hasCloseButton && !withCross && <ModalCloseButton {...this.props} />}
             <ModalDescription {...this.props} />
             { children }
             <ModalButtons {...this.props} />
@@ -115,7 +128,7 @@ Modal.propTypes = {
   secondaryText: React.PropTypes.string,
   secondaryAction: React.PropTypes.func,
   dismissAction: React.PropTypes.func,
-  dismissText: React.Proptypes.string,
+  dismissText: React.PropTypes.string,
   primaryType: React.PropTypes.string,
   primaryText: React.PropTypes.string,
   primaryAction: React.PropTypes.func,
@@ -126,7 +139,7 @@ Modal.propTypes = {
 Modal.defaultProps = {
   primaryType: 'secondary',
   secondaryType: 'regular',
-  withCross: true,
+  withCross: false,
   hasCloseButton: true
 }
 
