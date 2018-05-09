@@ -144,13 +144,13 @@ const { Button } = require('./index');
     <Button subtle theme='danger' label='DANGER theme' onClick={() => alert('Clicked on DANGER theme')} />
   </p>
   <p>
-    <Button subtle disabled='true' label='Disabled'  onClick={() => alert('Clicked on Disabled')} />
+    <Button subtle disabled label='Disabled'  onClick={() => alert('Clicked on Disabled')} />
   </p>
   <p>
-    <Button subtle busy='true' label='Busy'  onClick={() => alert('Clicked on Busy')} />
-    <Button subtle busy='true' theme='secondary' label='Busy secondary'  onClick={() => alert('Clicked on Busy secondary')} />
-    <Button subtle busy='true' theme='highlight' label='Busy highlight'  onClick={() => alert('Clicked on Busy highlight')} />
-    <Button subtle busy='true' theme='danger' label='Busy danger'  onClick={() => alert('Clicked on Busy danger')} />
+    <Button subtle busy label='Busy'  onClick={() => alert('Clicked on Busy')} />
+    <Button subtle busy theme='secondary' label='Busy secondary'  onClick={() => alert('Clicked on Busy secondary')} />
+    <Button subtle busy theme='highlight' label='Busy highlight'  onClick={() => alert('Clicked on Busy highlight')} />
+    <Button subtle busy theme='danger' label='Busy danger'  onClick={() => alert('Clicked on Busy danger')} />
   </p>
 </div>
 ```
