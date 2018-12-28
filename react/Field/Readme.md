@@ -32,3 +32,16 @@ Like `Input` component, it can have the following properties:
   />
 </form>
 ```
+
+##### Password field without show/hide button
+
+```
+<form>
+  <Field
+    id="idFieldPassword"
+    label="I'm a password label"
+    type="password"
+    fieldProps={{showVisibilityButton: true}}
+  />
+</form>
+```
