@@ -9959,12 +9959,12 @@ body {
   overflow: auto;
 }
 
-.barleft--3a6YT {
-  width: 3rem;
-  height: 3rem;
+.c-bar-btn--1Jc6J {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: rem(48);
+  height: rem(48);
 }
 
 @-moz-keyframes spin--2Vvw3 {
