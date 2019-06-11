@@ -10593,6 +10593,14 @@ body {
   border-radius: 0.5rem;
   padding: 1rem;
 }
+.c-card--inset--2pofc {
+  margin: 1rem 2rem;
+}
+@media (max-width: 48rem) {
+  .c-card--inset--2pofc {
+    margin: 0.5rem;
+  }
+}
 
 .u-title-h1--fimho,
 .u-title-h2--2cES6,
@@ -21473,18 +21481,6 @@ body {
 @media (max-width: 63.938rem) {
   .c-empty-text--3HnvR {
     margin: 0.313rem 1.5rem 0;
-  }
-}
-
-.well--3xv79 {
-  margin: 1rem 2rem;
-  background: var(--paleGrey);
-  border: 0.063rem solid #c0c0c0;
-  border-radius: 0.313rem;
-}
-@media (max-width: 48rem) {
-  .well--3xv79 {
-    margin: 0.5rem;
   }
 }
 
